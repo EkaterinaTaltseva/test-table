@@ -1,5 +1,21 @@
 <template>
   <v-card max-width="1000" class="mx-auto" >
+
+    <div class="pt-10 pl-5">
+
+        <v-btn elevation="2"
+               class="mr-2 mb-1"
+               x-small
+               @click="changeStatus('open')"
+        >Open</v-btn>
+        <v-btn elevation="2"
+               class="mb-1"
+               x-small
+               @click="changeStatus('close')"
+        >Close</v-btn>
+    </div>
+
+
     <v-simple-table>
       <template v-slot:default>
         <thead>
@@ -9,17 +25,6 @@
                         @click="select"
                         class="d-inline-block"
             ></v-checkbox>
-            <v-btn elevation="2"
-                   class="mr-2 mb-4"
-                   x-small
-                   @click="changeStatus('open')"
-            >Open</v-btn>
-            <v-btn elevation="2"
-                   class="mb-4"
-                   x-small
-                   @click="changeStatus('close')"
-            >Close</v-btn>
-
           </th>
           <th class="text-left "
               v-for="item in $store.state.headers"

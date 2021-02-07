@@ -25,7 +25,8 @@
         <v-col cols="12" class="text-right" >
           <v-btn elevation="2"
                  type="submit"
-          >Войти</v-btn>
+          >Войти
+          </v-btn>
         </v-col>
         <v-spacer></v-spacer>
       </v-row>
