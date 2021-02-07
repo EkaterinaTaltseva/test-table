@@ -6,8 +6,14 @@ import Table from '@/views/Table'
 Vue.use(VueRouter)
 
 const routes = [
-  { path: '/', component: Login },
-  { path: '*', redirect: '/' },
+  { path: '/',
+    component: Login,
+    name: 'login',
+    meta: { requiresAuth: false }
+  },
+  {
+    path: '*',
+    redirect: '/' },
   {
     path: '/table',
     component: Table,
@@ -19,5 +25,11 @@ const router = new VueRouter({
   mode: 'history',
   routes
 })
+
+router.beforeEach ((to, from, next) => {
+    if (to.name !== 'login' && from.meta.requiresAuth !== true) next( {name: 'login'})
+    else next()
+  })
+
 
 export default router

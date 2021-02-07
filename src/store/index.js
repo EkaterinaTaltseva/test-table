@@ -4,7 +4,6 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isAuth: false,
     email: '',
     password: '',
     validEmail: 'admin',
