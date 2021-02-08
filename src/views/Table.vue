@@ -28,6 +28,7 @@
           </th>
           <th class="text-left "
               v-for="item in $store.state.headers"
+              :key="item.value"
               @click="ofSort(item.value, item.rising), item.rising = !item.rising "
               >
               {{ item.text }}
