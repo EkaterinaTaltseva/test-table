@@ -25,9 +25,9 @@
             ></v-checkbox>
           </th>
           <th class="text-left "
-              v-for="item in $store.state.headers"
-              :key="item.value"
-              @click="ofSort(item.value, item.rising)"
+              v-for="item in headers"
+              :key="item.number"
+              @click="ofSort(item)"
               >
               {{ item.text }}
           </th>
@@ -61,6 +61,11 @@
 <script>
 import TableEdit from '@/components/TableEdit';
 export default {
+  computed: {
+    headers() {
+      return this.$store.state.headers
+    }
+  },
   methods: {
     changeStatus(param) {
       this.$store.commit('changeStatus', param)
@@ -69,8 +74,8 @@ export default {
     select() {
       this.$store.commit('select')
     },
-    ofSort(value, rising) {
-      this.$store.commit('ofSort', {value, rising})
+    ofSort(item) {
+      this.$store.commit('ofSort', item)
     },
     editItem (item) {
       this.$store.commit('editItem', item)
@@ -79,7 +84,6 @@ export default {
   components: {
     TableEdit
   },
-
 }
 </script>
 <style scoped>

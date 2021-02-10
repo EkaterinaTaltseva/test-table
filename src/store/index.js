@@ -46,16 +46,14 @@ export default new Vuex.Store({
         state.selectedAll = false
       }
     },
-    ofSort(state, {value, rising}) {
-      if (rising) {
-        state.dataTable.sort((a, b) => {
-          if (a[value] > b[value]) return 1
-          if (a[value] === b[value]) return 0
-          if (a[value] < b[value]) return -1}
-        )
-      } else if (!rising) {  state.dataTable.reverse() }
-      const headersEl = state.headers.find(el=> el.value === value)
-      headersEl.rising = !rising
+    ofSort(state, item) {
+      state.dataTable.sort((a, b) => {
+        if (a[item.value] > b[item.value]) return 1
+        if (a[item.value] === b[item.value]) return 0
+        if (a[item.value] < b[item.value]) return -1
+      })
+      if (!item.rising) { state.dataTable.reverse()}
+      item.rising = !item.rising
     },
     changeStatus(state, payload) {
       state.selected.forEach(selectedItem => {
@@ -67,10 +65,23 @@ export default new Vuex.Store({
       })
       state.selectedAll = true
     },
-    editItem (state, payload) {
-      state.editedIndex = state.dataTable.indexOf(payload)
-      state.editedItem = Object.assign({}, payload)
+    editItem (state, item) {
+      state.editedIndex = state.dataTable.indexOf(item)
+      state.editedItem = Object.assign({}, item)
       state.dialog = true
+    },
+    save (state) {
+      if (state.editedIndex > -1) {
+        Object.assign(
+          state.dataTable[state.editedIndex],
+          state.editedItem
+        )
+      } else { state.dataTable.push(state.editedItem) }
+    },
+    close (state) {
+      state.dialog = false
+      state.editedItem = Object.assign({}, state.defaultItem)
+      state.editedIndex = -1
     },
   },
   actions: {},

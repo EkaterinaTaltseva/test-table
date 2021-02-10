@@ -36,7 +36,6 @@
 </template>
 <script>
 export default {
-
   methods: {
     submit() {
       if (this.$store.getters.isValid) {
