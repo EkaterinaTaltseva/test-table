@@ -6,22 +6,20 @@
         <v-btn elevation="2"
                class="mr-2 mb-1"
                x-small
-               @click="changeStatus('open')"
+               @click="changeStatus('open'), select"
         >Open</v-btn>
         <v-btn elevation="2"
                class="mb-1"
                x-small
-               @click="changeStatus('close')"
+               @click="changeStatus('close'), select"
         >Close</v-btn>
     </div>
-
-
     <v-simple-table>
       <template v-slot:default>
         <thead>
         <tr >
           <th class="text-left" >
-            <v-checkbox :value="$store.state.selected2"
+            <v-checkbox :value="$store.state.selectedAll"
                         @click="select"
                         class="d-inline-block"
             ></v-checkbox>
@@ -29,7 +27,7 @@
           <th class="text-left "
               v-for="item in $store.state.headers"
               :key="item.value"
-              @click="ofSort(item.value, item.rising), item.rising = !item.rising "
+              @click="ofSort(item.value, item.rising)"
               >
               {{ item.text }}
           </th>
@@ -65,16 +63,17 @@ import TableEdit from '@/components/TableEdit';
 export default {
   methods: {
     changeStatus(param) {
-      this.$store.dispatch('changeStatus', param)
+      this.$store.commit('changeStatus', param)
+      this.select()
     },
     select() {
-      this.$store.dispatch('select')
+      this.$store.commit('select')
     },
     ofSort(value, rising) {
-      this.$store.dispatch('ofSort', {value, rising})
+      this.$store.commit('ofSort', {value, rising})
     },
     editItem (item) {
-      this.$store.dispatch('editItem', item)
+      this.$store.commit('editItem', item)
     },
   },
   components: {

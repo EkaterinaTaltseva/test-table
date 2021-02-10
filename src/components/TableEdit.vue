@@ -44,14 +44,35 @@
 
 <script>
 export default {
+  data() {
+    return {
+
+    }
+  },
   watch: {
     dialog (val) {
       val || this.close()
     }
   },
   methods: {
-    save () {this.$store.dispatch('save')},
-    close () {this.$store.dispatch('close')}
+    save () {
+      if (this.$store.state.editedIndex > -1) {
+        Object.assign(
+            this.$store.state.dataTable[this.$store.state.editedIndex],
+            this.$store.state.editedItem
+        )
+      } else { this.$store.state.dataTable.push(this.$store.state.editedItem) }
+      this.close()
+    },
+
+
+    close () {
+      this.$store.state.dialog = false
+      this.$store.state.editedItem = Object.assign({}, this.$store.state.defaultItem)
+      this.$store.state.editedIndex = -1
+    },
+
+
   }
 }
 </script>

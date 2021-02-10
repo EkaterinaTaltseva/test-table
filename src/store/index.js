@@ -10,7 +10,7 @@ export default new Vuex.Store({
     validPassword: 'admin',
     dialog: false,
     dialogDelete: false,
-    selected2: false,
+    selectedAll: false,
     selected: [],
     editedIndex: -1,
     editedItem: {number: 0, name: '', date: 0, status: '',},
@@ -37,58 +37,42 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-
-  },
-  actions: {
-    ofSort(context, {value, rising}) {
+    select(state) {
+      if (!state.selectedAll) {
+        state.dataTable.forEach(i => state.selected.push(i.number))
+        state.selectedAll = true
+      }else if (state.selectedAll) {
+        state.selected.splice(0,state.selected.length)
+        state.selectedAll = false
+      }
+    },
+    ofSort(state, {value, rising}) {
       if (rising) {
-        context.state.dataTable.sort((a, b) => {
+        state.dataTable.sort((a, b) => {
           if (a[value] > b[value]) return 1
           if (a[value] === b[value]) return 0
           if (a[value] < b[value]) return -1}
         )
-      } else if (!rising) { context.state.dataTable.reverse() }
+      } else if (!rising) {  state.dataTable.reverse() }
+      const headersEl = state.headers.find(el=> el.value === value)
+      headersEl.rising = !rising
     },
-    changeStatus(context, payload) {
-      context.state.selected.forEach(item1 => {
-        context.state.dataTable.forEach(item2 => {
-          if (item1 === item2.number) {
-            item2.status = payload
+    changeStatus(state, payload) {
+      state.selected.forEach(selectedItem => {
+        state.dataTable.forEach(dataTableItem => {
+          if (selectedItem === dataTableItem.number) {
+            dataTableItem.status = payload
           }
         })
       })
-      context.state.selected2 = true
-      context.dispatch('select')
+      state.selectedAll = true
     },
-    select(context) {
-      if (!context.state.selected2) {
-        context.state.dataTable.forEach(i => context.state.selected.push(i.number))
-        context.state.selected2 = true
-      }else if (context.state.selected2) {
-        context.state.selected.splice(0,context.state.selected.length)
-        context.state.selected2 = false
-      }
-    },
-    editItem (context, item) {
-      context.state.editedIndex = context.state.dataTable.indexOf(item)
-      context.state.editedItem = Object.assign({}, item)
-      context.state.dialog = true
-    },
-    close (context) {
-      context.state.dialog = false
-        context.state.editedItem = Object.assign({}, context.state.defaultItem)
-        context.state.editedIndex = -1
-    },
-
-    save (context) {
-      if (context.state.editedIndex > -1) {
-        Object.assign(
-          context.state.dataTable[context.state.editedIndex],
-          context.state.editedItem
-        )
-      } else { context.state.dataTable.push(context.state.editedItem) }
-      context.dispatch('close')
+    editItem (state, payload) {
+      state.editedIndex = state.dataTable.indexOf(payload)
+      state.editedItem = Object.assign({}, payload)
+      state.dialog = true
     },
   },
+  actions: {},
   modules: {}
 })
