@@ -29,6 +29,7 @@
               :key="item.number"
               @click="ofSort(item)"
               >
+              <v-icon small class="mr-2" >mdi-swap-vertical</v-icon>
               {{ item.text }}
           </th>
         </tr>
@@ -44,9 +45,7 @@
             ></v-checkbox></td>
           <td >{{ item.number }}</td>
           <td  @click="editItem(item)" >
-            <v-icon small class="mr-2" >
-              mdi-pencil
-            </v-icon>
+            <v-icon small class="mr-2" > mdi-pencil </v-icon>
             {{ item.name }}
           </td>
           <td >{{ item.date }}</td>

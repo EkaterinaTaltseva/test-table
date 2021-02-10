@@ -16,10 +16,10 @@ export default new Vuex.Store({
     editedItem: {number: 0, name: '', date: 0, status: '',},
     defaultItem: {number: 0, name: '', date: 0, status: '',},
     headers: [
-      { text: '№', value: 'number', rising: true},
-      { text: 'Название',  value: 'name', rising: true},
-      { text: 'Дата', value: 'date', rising: true },
-      { text: 'Статус', value: 'status', rising: true },
+      { text: '№', value: 'number', sortable: true},
+      { text: 'Название',  value: 'name', sortable: true},
+      { text: 'Дата', value: 'date', sortable: true },
+      { text: 'Статус', value: 'status', sortable: true },
     ],
     dataTable : [
       {number: 159, name: 'Frozen', date: '2013, 12, 15', status: 'open'},
@@ -52,8 +52,8 @@ export default new Vuex.Store({
         if (a[item.value] === b[item.value]) return 0
         if (a[item.value] < b[item.value]) return -1
       })
-      if (!item.rising) { state.dataTable.reverse()}
-      item.rising = !item.rising
+      if (!item.sortable) { state.dataTable.reverse()}
+      item.sortable = !item.sortable
     },
     changeStatus(state, payload) {
       state.selected.forEach(selectedItem => {
